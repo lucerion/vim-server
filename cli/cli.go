@@ -3,6 +3,7 @@ package cli
 import (
 	"flag"
 	"fmt"
+	"os"
 )
 
 type Config struct {
@@ -11,11 +12,16 @@ type Config struct {
 
 func ParseFlags() (Config, []string) {
 	auto := flag.Bool("auto", false, "connect automatically if only one server runned")
+	help := flag.Bool("help", false, "show help message")
+
 	flag.Parse()
 
-	args := flag.Args()
+	if *help {
+        flag.Usage()
+        os.Exit(0)
+    }
 
-	return Config{Auto: *auto}, args
+	return Config{Auto: *auto}, flag.Args()
 }
 
 func Ask(message string) string {
