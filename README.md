@@ -1,6 +1,6 @@
 # vim-server
 
-Opens files in the single Vim instance.
+A Vim wrapper that opens files in a single Vim instance.
 
 ## Build
 
