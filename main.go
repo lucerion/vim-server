@@ -24,50 +24,13 @@ func main() {
 
 	if len(serversList) == 0 {
 		serverName := cli.Ask("Enter server name:\n")
-		startServer(serverName, vimArgs)
+		cli.StartServer(serverName, vimArgs)
 	}
 
 	if len(serversList) == 1 && config.Auto {
 		serverName := serversList[0]
-		openServer(serverName, vimArgs)
+		cli.OpenServer(serverName, vimArgs)
 	}
 
-	selectServer(serversList, vimArgs)
-}
-
-func startServer(serverName string, vimArgs []string) {
-	_, err := server.Start(serverName, vimArgs)
-	if err != nil {
-		fmt.Print(err)
-		os.Exit(1)
-	} else {
-		os.Exit(0)
-	}
-}
-
-func openServer(serverName string, vimArgs []string) {
-	_, err := server.Open(serverName, vimArgs)
-	if err != nil {
-		fmt.Print(err)
-		os.Exit(1)
-	} else {
-		os.Exit(0)
-	}
-}
-
-func selectServer(serversList []string, vimArgs []string) {
-	printServers(serversList)
-	serverName := cli.Ask("Enter server name:\n")
-	if server.Exists(serverName) {
-		openServer(serverName, vimArgs)
-	} else {
-		startServer(serverName, vimArgs)
-	}
-}
-
-func printServers(serversList []string) {
-	fmt.Print("Servers:\n")
-	for _, serverName := range serversList {
-		fmt.Println(serverName)
-	}
+	cli.SelectServer(serversList, vimArgs)
 }

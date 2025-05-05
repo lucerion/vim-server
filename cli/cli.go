@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"github.com/lucerion/vim-server/server"
 )
 
 type Config struct {
@@ -31,4 +32,41 @@ func Ask(message string) string {
 	fmt.Scan(&input)
 
 	return input
+}
+
+func StartServer(serverName string, vimArgs []string) {
+	_, err := server.Start(serverName, vimArgs)
+	if err != nil {
+		fmt.Print(err)
+		os.Exit(1)
+	} else {
+		os.Exit(0)
+	}
+}
+
+func OpenServer(serverName string, vimArgs []string) {
+	_, err := server.Open(serverName, vimArgs)
+	if err != nil {
+		fmt.Print(err)
+		os.Exit(1)
+	} else {
+		os.Exit(0)
+	}
+}
+
+func SelectServer(serversList []string, vimArgs []string) {
+	printServers(serversList)
+	serverName := Ask("Enter server name:\n")
+	if server.Exists(serverName) {
+		OpenServer(serverName, vimArgs)
+	} else {
+		StartServer(serverName, vimArgs)
+	}
+}
+
+func printServers(serversList []string) {
+	fmt.Print("Servers:\n")
+	for _, serverName := range serversList {
+		fmt.Println(serverName)
+	}
 }
