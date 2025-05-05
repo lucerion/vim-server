@@ -17,9 +17,9 @@ func ParseFlags() (Config, []string) {
 	flag.Parse()
 
 	if *help {
-        flag.Usage()
-        os.Exit(0)
-    }
+		flag.Usage()
+		os.Exit(0)
+	}
 
 	return Config{Auto: *auto}, flag.Args()
 }

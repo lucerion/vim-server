@@ -12,7 +12,7 @@ func main() {
 	if _, err := exec.LookPath("vim"); err != nil {
 		fmt.Print("Error: vim is not installed")
 		os.Exit(1)
-    }
+	}
 
 	config, vimArgs := cli.ParseFlags()
 

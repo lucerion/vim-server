@@ -2,10 +2,22 @@
 
 Opens files in the single Vim instance.
 
+## Build
+
+Builds binary to `./bin`
+
+    make
+
+## Setup
+
+Builds binary and install it to `~/bin`
+
+    make setup
+
 ## Usage
 
 ```
-vim_server [OPTIONS] [FILE...]
+vim-server [OPTIONS] [FILE...]
   --auto
     	connect automatically if only one server runned
   --help
