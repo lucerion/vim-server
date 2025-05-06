@@ -10,7 +10,7 @@ import (
 
 func main() {
 	if _, err := exec.LookPath("vim"); err != nil {
-		fmt.Print("Error: vim is not installed")
+		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
 
@@ -18,12 +18,12 @@ func main() {
 
 	serversList, err := server.List()
 	if err != nil {
-		fmt.Print(err)
+		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
 
 	if len(serversList) == 0 {
-		serverName := cli.Ask("Enter server name:\n")
+		serverName := cli.Ask("Enter server name:")
 		cli.StartServer(serverName, vimArgs)
 	}
 

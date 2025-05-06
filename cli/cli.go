@@ -28,7 +28,7 @@ func ParseFlags() (Config, []string) {
 func Ask(message string) string {
 	var input string
 
-	fmt.Print(message)
+	fmt.Println(message)
 	fmt.Scan(&input)
 
 	return input
@@ -37,7 +37,7 @@ func Ask(message string) string {
 func StartServer(serverName string, vimArgs []string) {
 	_, err := server.Start(serverName, vimArgs)
 	if err != nil {
-		fmt.Print(err)
+		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	} else {
 		os.Exit(0)
@@ -47,7 +47,7 @@ func StartServer(serverName string, vimArgs []string) {
 func OpenServer(serverName string, vimArgs []string) {
 	_, err := server.Open(serverName, vimArgs)
 	if err != nil {
-		fmt.Print(err)
+		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	} else {
 		os.Exit(0)
@@ -56,7 +56,7 @@ func OpenServer(serverName string, vimArgs []string) {
 
 func SelectServer(serversList []string, vimArgs []string) {
 	printServers(serversList)
-	serverName := Ask("Enter server name:\n")
+	serverName := Ask("Enter server name:")
 	if server.Exists(serverName) {
 		OpenServer(serverName, vimArgs)
 	} else {
@@ -65,7 +65,7 @@ func SelectServer(serversList []string, vimArgs []string) {
 }
 
 func printServers(serversList []string) {
-	fmt.Print("Servers:\n")
+	fmt.Println("Servers:")
 	for _, serverName := range serversList {
 		fmt.Println(serverName)
 	}
