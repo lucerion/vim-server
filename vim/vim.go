@@ -1,4 +1,4 @@
-package server
+package vim
 
 import (
 	"os"
@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func List() ([]string, error) {
+func ServersList() ([]string, error) {
 	cmd := exec.Command("vim", "--serverlist")
 
 	output, err := cmd.CombinedOutput()
@@ -24,7 +24,7 @@ func List() ([]string, error) {
 	return nonEmptyLines, nil
 }
 
-func Start(serverName string, vimArgs []string) (string, error) {
+func StartServer(serverName string, vimArgs []string) (string, error) {
 	args := []string{"--servername", serverName}
 
 	if len(vimArgs) > 0 {
@@ -43,14 +43,14 @@ func Start(serverName string, vimArgs []string) (string, error) {
 	return serverName, nil
 }
 
-func Open(serverName string, vimArgs []string) (string, error) {
+func OpenServer(serverName string, vimArgs []string) (string, error) {
 	newVimArgs := append([]string{"--remote-tab-silent"}, vimArgs...)
 
-	return Start(serverName, newVimArgs)
+	return StartServer(serverName, newVimArgs)
 }
 
-func Exists(serverName string) bool {
-	servers, _ := List()
+func IsServerExists(serverName string) bool {
+	servers, _ := ServersList()
 
 	return slices.Contains(servers, strings.ToUpper(serverName))
 }

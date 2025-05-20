@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"github.com/lucerion/vim-server/server"
+	"github.com/lucerion/vim-server/vim"
 )
 
 type Config struct {
@@ -35,7 +35,7 @@ func Ask(message string) string {
 }
 
 func StartServer(serverName string, vimArgs []string) {
-	_, err := server.Start(serverName, vimArgs)
+	_, err := vim.StartServer(serverName, vimArgs)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
@@ -45,7 +45,7 @@ func StartServer(serverName string, vimArgs []string) {
 }
 
 func OpenServer(serverName string, vimArgs []string) {
-	_, err := server.Open(serverName, vimArgs)
+	_, err := vim.OpenServer(serverName, vimArgs)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
@@ -57,7 +57,7 @@ func OpenServer(serverName string, vimArgs []string) {
 func SelectServer(serversList []string, vimArgs []string) {
 	printServers(serversList)
 	serverName := Ask("Enter server name:")
-	if server.Exists(serverName) {
+	if vim.IsServerExists(serverName) {
 		OpenServer(serverName, vimArgs)
 	} else {
 		StartServer(serverName, vimArgs)

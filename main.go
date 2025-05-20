@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"github.com/lucerion/vim-server/cli"
-	"github.com/lucerion/vim-server/server"
+	"github.com/lucerion/vim-server/vim"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 
 	config, vimArgs := cli.ParseFlags()
 
-	serversList, err := server.List()
+	serversList, err := vim.ServersList()
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
