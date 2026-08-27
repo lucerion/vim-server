@@ -24,11 +24,11 @@ func ServersList() ([]string, error) {
 	return nonEmptyLines, nil
 }
 
-func StartServer(serverName string, vimArgs []string) (string, error) {
+func NewServer(serverName string, vimFlags []string) (string, error) {
 	args := []string{"--servername", serverName}
 
-	if len(vimArgs) > 0 {
-		args = append(args, vimArgs...)
+	if len(vimFlags) > 0 {
+		args = append(args, vimFlags...)
 	}
 
 	cmd := exec.Command("vim", args...)
@@ -43,14 +43,8 @@ func StartServer(serverName string, vimArgs []string) (string, error) {
 	return serverName, nil
 }
 
-func OpenServer(serverName string, vimArgs []string) (string, error) {
-	newVimArgs := append([]string{"--remote-tab-silent"}, vimArgs...)
+func OpenServer(serverName string, vimFlags []string) (string, error) {
+	newVimArgs := append([]string{"--remote-tab-silent"}, vimFlags...)
 
-	return StartServer(serverName, newVimArgs)
-}
-
-func IsServerExists(serverName string) bool {
-	servers, _ := ServersList()
-
-	return slices.Contains(servers, strings.ToUpper(serverName))
+	return NewServer(serverName, newVimArgs)
 }

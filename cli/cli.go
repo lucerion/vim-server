@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"github.com/lucerion/vim-server/vim"
 )
 
 type Config struct {
@@ -22,7 +21,9 @@ func ParseFlags() (Config, []string) {
 		os.Exit(0)
 	}
 
-	return Config{Auto: *auto}, flag.Args()
+	vimFlags := parseVimFlags()
+
+	return Config{Auto: *auto}, vimFlags
 }
 
 func Ask(message string) string {
@@ -34,39 +35,12 @@ func Ask(message string) string {
 	return input
 }
 
-func StartServer(serverName string, vimArgs []string) {
-	_, err := vim.StartServer(serverName, vimArgs)
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		os.Exit(1)
-	} else {
-		os.Exit(0)
-	}
-}
+func parseVimFlags() []string {
+	var vimFlags []string
 
-func OpenServer(serverName string, vimArgs []string) {
-	_, err := vim.OpenServer(serverName, vimArgs)
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		os.Exit(1)
-	} else {
-		os.Exit(0)
-	}
-}
+	flag.Visit(func(f *flag.Flag) {
+		vimFlags = append(vimFlags, fmt.Sprintf("--%s=%s", f.Name, f.Value.String()))
+	})
 
-func SelectServer(serversList []string, vimArgs []string) {
-	printServers(serversList)
-	serverName := Ask("Enter server name:")
-	if vim.IsServerExists(serverName) {
-		OpenServer(serverName, vimArgs)
-	} else {
-		StartServer(serverName, vimArgs)
-	}
-}
-
-func printServers(serversList []string) {
-	fmt.Println("Servers:")
-	for _, serverName := range serversList {
-		fmt.Println(serverName)
-	}
+	return vimFlags
 }
