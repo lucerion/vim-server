@@ -2,17 +2,11 @@
 
 A Vim wrapper that opens files in a single Vim instance.
 
-## Build
-
-Builds binary to `./bin`
-
-    make
-
 ## Setup
 
 Builds binary and install it to `~/bin`
 
-    make setup
+    make
 
 ## Usage
 
