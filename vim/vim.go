@@ -44,7 +44,7 @@ func NewServer(serverName string, vimFlags []string) (string, error) {
 }
 
 func OpenServer(serverName string, vimFlags []string) (string, error) {
-	newVimArgs := append([]string{"--remote-tab-silent"}, vimFlags...)
+	newVimArgs := append([]string{"--remote-tab-silent", serverName}, vimFlags...)
 
 	return NewServer(serverName, newVimArgs)
 }

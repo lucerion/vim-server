@@ -11,9 +11,14 @@ Builds binary and install it to `~/bin`
 ## Usage
 
 ```
-vim-server [OPTIONS] [FILE...]
-  --auto
-    	connect automatically if only one server runned
-  --help
-    	show help message
+Usage: vim-server [VIM_SERVER_OPTIONS] [OPTIONS] [FILE...]
+
+VIM_SERVER_OPTIONS
+
+  -vs-auto, --vs-auto    connect automatically if only one server runned
+  -vs-help, --vs-help    show this help message
+
+OPTIONS & FILES
+
+  all other flags and arguments are passed directly to the vim
 ```

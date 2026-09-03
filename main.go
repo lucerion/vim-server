@@ -64,7 +64,7 @@ func openServer(serverName string, vimFlags []string) {
 func selectServer(serverName string, serversList []string, vimFlags []string) {
 	isServerExists := slices.Contains(serversList, strings.ToUpper(serverName))
 
-	if isServerExists  {
+	if isServerExists {
 		openServer(serverName, vimFlags)
 	} else {
 		newServer(serverName, vimFlags)

@@ -1,29 +1,48 @@
 package cli
 
 import (
-	"flag"
 	"fmt"
 	"os"
 )
+
+const USAGE = `Usage: vim-server [VIM_SERVER_OPTIONS] [OPTIONS] [FILE...]
+
+VIM_SERVER_OPTIONS
+
+  -vs-auto, --vs-auto    connect automatically if only one server runned
+  -vs-help, --vs-help    show this help message
+
+OPTIONS & FILES
+
+  all other flags and arguments are passed directly to the vim
+`
 
 type Config struct {
 	Auto bool
 }
 
 func ParseFlags() (Config, []string) {
-	auto := flag.Bool("auto", false, "connect automatically if only one server runned")
-	help := flag.Bool("help", false, "show help message")
+	var config Config
+	var vimFlags []string
 
-	flag.Parse()
+	args := os.Args[1:]
+	for i := 0; i < len(args); i++ {
+		arg := args[i]
 
-	if *help {
-		flag.Usage()
-		os.Exit(0)
+		if arg == "-vs-auto" || arg == "--vs-auto" {
+			config.Auto = true
+			continue
+		}
+
+		if arg == "-vs-help" || arg == "--vs-help" {
+			fmt.Print(USAGE)
+			os.Exit(0)
+		}
+
+		vimFlags = append(vimFlags, arg)
 	}
 
-	vimFlags := parseVimFlags()
-
-	return Config{Auto: *auto}, vimFlags
+	return config, vimFlags
 }
 
 func Ask(message string) string {
@@ -33,14 +52,4 @@ func Ask(message string) string {
 	fmt.Scan(&input)
 
 	return input
-}
-
-func parseVimFlags() []string {
-	var vimFlags []string
-
-	flag.Visit(func(f *flag.Flag) {
-		vimFlags = append(vimFlags, fmt.Sprintf("--%s=%s", f.Name, f.Value.String()))
-	})
-
-	return vimFlags
 }
