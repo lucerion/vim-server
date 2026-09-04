@@ -6,8 +6,6 @@ import (
 	"os/exec"
 	"slices"
 	"strings"
-	"github.com/lucerion/vim-server/cli"
-	"github.com/lucerion/vim-server/vim"
 )
 
 func main() {
@@ -16,16 +14,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	config, vimFlags := cli.ParseFlags()
+	config, vimFlags := parseFlags()
 
-	serversList, err := vim.ServersList()
+	serversList, err := vimServersList()
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
 
 	if len(serversList) == 0 {
-		serverName := cli.Ask("Enter new server name:")
+		serverName := ask("Enter new server name:")
 		newServer(serverName, vimFlags)
 	}
 
@@ -35,12 +33,12 @@ func main() {
 	}
 
 	printServers(serversList)
-	serverName := cli.Ask("Enter new or existing server name:")
+	serverName := ask("Enter new or existing server name:")
 	selectServer(serverName, serversList, vimFlags)
 }
 
 func newServer(serverName string, vimFlags []string) {
-	_, err := vim.NewServer(serverName, vimFlags)
+	_, err := newVimServer(serverName, vimFlags)
 
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
@@ -51,7 +49,7 @@ func newServer(serverName string, vimFlags []string) {
 }
 
 func openServer(serverName string, vimFlags []string) {
-	_, err := vim.OpenServer(serverName, vimFlags)
+	_, err := openVimServer(serverName, vimFlags)
 
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)

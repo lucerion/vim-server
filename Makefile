@@ -13,7 +13,7 @@ all: setup
 
 .PHONY: build
 build:
-	go build -o $(SOURCE_BIN) main.go
+	go build -o $(SOURCE_BIN) main.go cli.go vim.go
 
 .PHONY: clean
 clean:

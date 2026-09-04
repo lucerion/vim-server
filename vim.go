@@ -1,4 +1,4 @@
-package vim
+package main
 
 import (
 	"os"
@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func ServersList() ([]string, error) {
+func vimServersList() ([]string, error) {
 	cmd := exec.Command("vim", "--serverlist")
 
 	output, err := cmd.CombinedOutput()
@@ -24,7 +24,7 @@ func ServersList() ([]string, error) {
 	return nonEmptyLines, nil
 }
 
-func NewServer(serverName string, vimFlags []string) (string, error) {
+func newVimServer(serverName string, vimFlags []string) (string, error) {
 	args := []string{"--servername", serverName}
 
 	if len(vimFlags) > 0 {
@@ -43,8 +43,8 @@ func NewServer(serverName string, vimFlags []string) (string, error) {
 	return serverName, nil
 }
 
-func OpenServer(serverName string, vimFlags []string) (string, error) {
+func openVimServer(serverName string, vimFlags []string) (string, error) {
 	newVimArgs := append([]string{"--remote-tab-silent", serverName}, vimFlags...)
 
-	return NewServer(serverName, newVimArgs)
+	return newVimServer(serverName, newVimArgs)
 }

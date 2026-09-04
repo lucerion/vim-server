@@ -1,4 +1,4 @@
-package cli
+package main
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ type Config struct {
 	Auto bool
 }
 
-func ParseFlags() (Config, []string) {
+func parseFlags() (Config, []string) {
 	var config Config
 	var vimFlags []string
 
@@ -45,7 +45,7 @@ func ParseFlags() (Config, []string) {
 	return config, vimFlags
 }
 
-func Ask(message string) string {
+func ask(message string) string {
 	var input string
 
 	fmt.Println(message)
